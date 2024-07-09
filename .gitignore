@@ -1,1 +1,3 @@
 yolov8x.pt
+venv/
+.DS_Store
