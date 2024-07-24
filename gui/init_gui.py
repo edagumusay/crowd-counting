@@ -52,9 +52,7 @@ class InitialWindow(QWidget):
         file_dialog.getOpenFileName(self, "Select Video File", "", "Video Files (*.mp4 *.avi)")
     
     def start_main_gui(self):
-        self.close()
-        w = MainWindow()
-        w.show()
+        pass
 
 if __name__ == "__main__":
     app = QApplication([])
