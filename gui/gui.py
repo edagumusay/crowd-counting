@@ -1,118 +1,88 @@
+from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QFormLayout, QComboBox, 
+                               QRadioButton, QPushButton, QFileDialog, QLineEdit, 
+                               )
 import sys
-from PySide6.QtGui import QAction
-from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QGridLayout, QMenuBar, QToolBar, 
-                               QWidget, QLabel, QGroupBox, QFormLayout, QLineEdit, 
-                               QSpinBox, QPushButton, QListWidget)
-
-
-class MainWindow(QMainWindow):
+from main_window import MainWindow
+class InitialWindow(QWidget):
     def __init__(self):
         super().__init__()
+
+        # To be passed to the MainWindow
+        self.video_path = None
         
         self.setWindowTitle("Crowd Counting")
+
+        self.main_window = None
         
-        # Menu Bar
-        menu_bar = QMenuBar()
-        self.setMenuBar(menu_bar)
+        # Main layout
+        layout = QVBoxLayout()
 
-        # Menubar actions
-        file_menu_action = QAction("File", self)
-        preference_menu_action = QAction("Preference", self)
-        exit_menu_action = QAction("Exit", self)
+        # Parameter Settings
+        form_layout = QFormLayout()
         
-        file_menu = menu_bar.addMenu("File")
-        preference_menu = menu_bar.addMenu("Preference")
-        exit_menu = menu_bar.addMenu("Exit")
-
-        file_menu.addAction(file_menu_action)
-        preference_menu.addAction(preference_menu_action)
-        exit_menu.addAction(preference_menu_action)
-
-        # Toolbar actions
-        generate_report_action = QAction("Generate Report", self)
-        access_data_action = QAction("Access Historical Data", self)
+        self.model_combo = QComboBox()
+        self.model_combo.addItems(["YOLO", "CSRNet", "OpenPose"])
+        form_layout.addRow("Model:", self.model_combo)
 
         
-        
-        # Toolbar
-        tool_bar = QToolBar()
-        self.addToolBar(tool_bar)
-        
-        tool_bar.addAction(generate_report_action)
-        tool_bar.addAction(access_data_action)
-        
-        # Central Widget
-        central_widget = QWidget()
-        main_layout = QGridLayout(central_widget)
-        
-        # Main stream Display Area
-        stream_layout = QVBoxLayout()
-        self.stream_display = QLabel()
-        self.stream_display.setStyleSheet("background-color: black;")
-        self.stream_display.setMinimumSize(800, 600)
-        stream_layout.addWidget(self.stream_display)
-        
-        # stream Controls
-        stream_controls_layout = QHBoxLayout()
-        self.play_button = QPushButton("Play")
-        self.pause_button = QPushButton("Pause")
-        self.stop_button = QPushButton("Stop")
-        
-        stream_controls_layout.addWidget(self.play_button)
-        stream_controls_layout.addWidget(self.pause_button)
-        stream_controls_layout.addWidget(self.stop_button)
-        
-        stream_layout.addLayout(stream_layout)
-        stream_layout.addLayout(stream_controls_layout)
-        
-        # Side Panel
-        side_panel = QGroupBox("Results and Parameters")
-        side_panel_layout = QVBoxLayout(side_panel)
-        
-        # Results
-        results_group = QGroupBox("Results")
-        results_layout = QFormLayout(results_group)
-        
-        self.current_count_label = QLabel("0")
-        self.error_label = QLabel("0")
-        self.result1_label = QLabel("0")
-        self.result2_label = QLabel("0")
-        
-        results_layout.addRow("Current Count:", self.current_count_label)
-        results_layout.addRow("Error:", self.error_label)
-        results_layout.addRow("Result 1:", self.result1_label)
-        results_layout.addRow("Result 2:", self.result2_label)
-        
-        side_panel_layout.addWidget(results_group)
-        
-        # Parameters
-        parameters_group = QGroupBox("Parameters")
-        settings_layout = QFormLayout(parameters_group)
-        
-        self.parameter0_label = QLineEdit()
-        self.parameter1_label = QSpinBox()
-        self.parameter2_label = QSpinBox()
-        self.parameter3_label = QSpinBox()
-        self.parameter4_label = QSpinBox()
-        
-        settings_layout.addRow("Parameter 0:", self.parameter0_label)
-        settings_layout.addRow("Parameter 1:", self.parameter1_label)
-        settings_layout.addRow("Parameter 2:", self.parameter2_label)
-        settings_layout.addRow("Parameter 3:", self.parameter3_label)
-        settings_layout.addRow("Parameter 4:", self.parameter4_label)
-        
-        side_panel_layout.addWidget(parameters_group)
-        
+        self.parameters = QLineEdit("<Coming soon!>")
+        self.parameters.setDisabled(True)
 
-        main_layout.addWidget(side_panel, 0, 0)
-        main_layout.addLayout(stream_layout, 0, 1)
+        form_layout.addRow("Parameters:", self.parameters)
         
+        layout.addLayout(form_layout)
         
-        self.setCentralWidget(central_widget)
+        # Input Source Selection
+        self.camera_radio = QRadioButton("Camera Stream")
+        self.camera_radio.toggled.connect(self.toggle_camera_radio)
+        self.video_radio = QRadioButton("Video Input")
+        self.video_radio.toggled.connect(self.toggle_video_radio)
+        layout.addWidget(self.camera_radio)
+        layout.addWidget(self.video_radio)
 
+        
+        self.upload_button = QPushButton("Select Video File")
+        self.upload_button.hide()
+        self.upload_button.clicked.connect(self.open_file_dialog)
+        layout.addWidget(self.upload_button)
+        
+        self.camera_combo = QComboBox()
+        self.camera_combo.addItems(["0", "1", "2"])
+        self.camera_combo.hide()
+        layout.addWidget(self.camera_combo)
+        
+        # Start Button
+        self.start_button = QPushButton("Start Counting")
+        self.start_button.clicked.connect(self.start_main_gui)
+        layout.addWidget(self.start_button)
+        
+        self.setLayout(layout)
+
+    def open_file_dialog(self):
+        file_path, _ = QFileDialog.getOpenFileName(self, "Select Video File", "", "Video Files (*.mp4 *.avi)")
+        if file_path:
+            self.video_path = file_path
+
+    def toggle_camera_radio(self):
+        if self.camera_radio.isChecked():
+            self.camera_combo.show()
+        else:
+            self.camera_combo.hide()
+    
+    def toggle_video_radio(self):
+        if self.video_radio.isChecked():
+            self.upload_button.show()
+        else:
+            self.upload_button.hide()
+    
+    def start_main_gui(self):
+        if self.main_window is None:
+            self.main_window = MainWindow(self.video_path)
+        self.close()
+        self.main_window.show()
 
 if __name__ == "__main__":
-    app = QApplication([])
-    initial_window = MainWindow()
+    app = QApplication(sys.argv)
+    initial_window = InitialWindow()
     initial_window.show()
     app.exec()
