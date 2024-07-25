@@ -1,0 +1,150 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" version="24.7.4">
+  <diagram name="Page-1" id="91UXrvqvbKUY7Hr2GtNB">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-115" value="User" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-116" value="System" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="249" y="20" width="150" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-117" value="Camera" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="469" y="20" width="150" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-118" value="Model" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="669" y="20" width="150" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-119" value="Data store" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="869" y="20" width="150" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-121" value="Start Crowd Counting" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="219.83" y="160" />
+            </Array>
+            <mxPoint x="93.99666666666674" y="160" as="sourcePoint" />
+            <mxPoint x="323.33" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-122" value="Initiate Video Stream" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry x="-0.003" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="443" y="176" />
+            </Array>
+            <mxPoint as="offset" />
+            <mxPoint x="323.16666666666674" y="176" as="sourcePoint" />
+            <mxPoint x="543.5" y="176" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-123" value="Send Video Stream" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1" source="iTAY-eBudtJOpQZxmP-o-117" target="iTAY-eBudtJOpQZxmP-o-116">
+          <mxGeometry x="0.0045" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="446" y="219" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-124" value="Estimate Crowd Count" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=horizontal;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="543" y="310" />
+            </Array>
+            <mxPoint x="323.70000000000005" y="310" as="sourcePoint" />
+            <mxPoint x="743.5" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-125" value="Return Crowd Count" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="546" y="350" />
+            </Array>
+            <mxPoint x="743.5" y="350" as="sourcePoint" />
+            <mxPoint x="323.70000000000005" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-126" value="Store Crowd Count" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="642.61" y="400" />
+            </Array>
+            <mxPoint x="322.99888888888916" y="400" as="sourcePoint" />
+            <mxPoint x="943.11" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-129" value="Display Crowd Count" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="323" y="440" as="sourcePoint" />
+            <mxPoint x="93" y="440.56" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-131" value="Request Report" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry x="0.0039" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="560" />
+              <mxPoint x="218" y="683" />
+            </Array>
+            <mxPoint x="94.38888888888891" y="560" as="sourcePoint" />
+            <mxPoint x="323.5" y="560" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-132" value="Retrieve Data for Report" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry x="-0.0002" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="643" y="590" />
+            </Array>
+            <mxPoint x="323.38888888888914" y="590" as="sourcePoint" />
+            <mxPoint x="943.5" y="590" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iTAY-eBudtJOpQZxmP-o-133" value="Return Data" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="646" y="640" />
+            </Array>
+            <mxPoint x="943.5" y="640" as="sourcePoint" />
+            <mxPoint x="323.38888888888914" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7o9XpCpTlJa7u_J1vT4s-2" value="Display the count" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="680" />
+            </Array>
+            <mxPoint x="323" y="680" as="sourcePoint" />
+            <mxPoint x="93" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7o9XpCpTlJa7u_J1vT4s-3" value="Adjust parameters" style="verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+          <mxGeometry x="0.0087" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="230" y="121" />
+            </Array>
+            <mxPoint x="94" y="121" as="sourcePoint" />
+            <mxPoint x="324" y="121" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7o9XpCpTlJa7u_J1vT4s-7" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="323" y="237" as="sourcePoint" />
+            <mxPoint x="323" y="287" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="363" y="237" />
+              <mxPoint x="363" y="287" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <UserObject label="Preprocess the video stream" placeholders="1" id="7o9XpCpTlJa7u_J1vT4s-8">
+          <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;overflow=hidden;" vertex="1" parent="1">
+            <mxGeometry x="330" y="251" width="160" height="20" as="geometry" />
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
