@@ -17,12 +17,14 @@ class VideoCountWorker(QRunnable):
     def __init__(self, main_window_instance):
         super().__init__()
         self.main_window_instance = main_window_instance
+        self._is_running = True
 
     @Slot()
     def run(self):
         """
         Counts the number of people entering and exiting based on object tracking.
         """
+        start_time = time.time()
         count = 0
         if self.main_window_instance.video_path:
             cap = cv2.VideoCapture(self.main_window_instance.video_path)
@@ -51,7 +53,7 @@ class VideoCountWorker(QRunnable):
         # writer = cv2.VideoWriter('Final_output.mp4', fourcc, 30, (W, H), True)
 
         fps = FPS().start()
-        while True:
+        while self._is_running:
             ret, frame = cap.read()
             if not ret:
                 break
@@ -127,6 +129,10 @@ class VideoCountWorker(QRunnable):
             for (i, (k, v)) in enumerate(info_status):
                 text = "{}: {}".format(k, v)
                 cv2.putText(frame, text, (10, H - ((i * 20) + 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
+            
+            # GUI update
+            total_count = totalUp + totalDown
+            self.main_window_instance.current_count_label.setText("%d" % total_count)
 
             # writer.write(frame)
             # cv2.imshow("People Count", frame)
@@ -147,6 +153,12 @@ class VideoCountWorker(QRunnable):
             totalFrames += 1
             fps.update()
 
+            # GUI update
+            num_seconds_till_now = time.time() - start_time
+            cal_fps = totalFrames / num_seconds_till_now
+            self.main_window_instance.fps_label.setText("%.2f" % cal_fps)
+
+
             end_time = time.time()
             num_seconds = (end_time - start_time)
             if num_seconds > 28800:
@@ -159,6 +171,9 @@ class VideoCountWorker(QRunnable):
         fps.stop()
         logger.info("Elapsed time: {:.2f}".format(fps.elapsed()))
         logger.info("Approx. FPS: {:.2f}".format(fps.fps()))
+    
+    def stop(self):
+        self._is_running = False
 
 class MainWindow(QMainWindow):
     def __init__(self, video_path):
@@ -216,6 +231,7 @@ class MainWindow(QMainWindow):
         self.play_button.clicked.connect(self.play_clicked)
         self.pause_button = QPushButton("Pause")
         self.stop_button = QPushButton("Stop")
+        self.stop_button.clicked.connect(self.stop_clicked)
         
         stream_controls_layout.addWidget(self.play_button)
         stream_controls_layout.addWidget(self.pause_button)
@@ -233,14 +249,12 @@ class MainWindow(QMainWindow):
         results_layout = QFormLayout(results_group)
         
         self.current_count_label = QLabel("0")
-        self.error_label = QLabel("0")
-        self.result1_label = QLabel("0")
-        self.result2_label = QLabel("0")
+        self.fps_label = QLabel("0")
+        self.result3_label = QLabel("0")
         
         results_layout.addRow("Current Count:", self.current_count_label)
-        results_layout.addRow("Error:", self.error_label)
-        results_layout.addRow("Result 1:", self.result1_label)
-        results_layout.addRow("Result 2:", self.result2_label)
+        results_layout.addRow("Approx. FPS:", self.fps_label)
+        results_layout.addRow("Result 3:", self.result3_label)
         
         side_panel_layout.addWidget(results_group)
         
@@ -249,6 +263,7 @@ class MainWindow(QMainWindow):
         settings_layout = QFormLayout(parameters_group)
         
         self.parameter0_label = QLineEdit()
+        self.parameter0_label.setDisabled(True)
         self.parameter1_label = QSpinBox()
         self.parameter2_label = QSpinBox()
         self.parameter3_label = QSpinBox()
@@ -270,5 +285,15 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
 
     def play_clicked(self):
-        video_counter_thread = VideoCountWorker(self)
-        self.threadpool.start(video_counter_thread)
+        self.video_counter_thread = VideoCountWorker(self)
+        self.threadpool.start(self.video_counter_thread)
+    
+    def stop_clicked(self):
+        if self.video_counter_thread is not None:
+            print("stopping")
+            self.video_counter_thread.stop()
+
+    def closeEvent(self, event):
+        if self.video_counter_thread is not None:
+            print("stopping")
+            self.video_counter_thread.stop()

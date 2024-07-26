@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QFormLayout, QComboBox, 
-                               QRadioButton, QPushButton, QFileDialog, QLineEdit, 
+                               QRadioButton, QPushButton, QFileDialog, QLineEdit, QMessageBox
                                )
 import sys
 from main_window import MainWindow
@@ -10,7 +10,7 @@ class InitialWindow(QWidget):
         # To be passed to the MainWindow
         self.video_path = None
         
-        self.setWindowTitle("Crowd Counting")
+        self.setWindowTitle("Dashboard - Crowd Counting")
 
         self.main_window = None
         
@@ -76,10 +76,12 @@ class InitialWindow(QWidget):
             self.upload_button.hide()
     
     def start_main_gui(self):
-        if self.main_window is None:
+        if self.video_path:
             self.main_window = MainWindow(self.video_path)
-        self.close()
-        self.main_window.show()
+            # self.close()
+            self.main_window.show()
+        else:
+            QMessageBox.warning(self, 'Warning', 'Video source not selected!')
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
