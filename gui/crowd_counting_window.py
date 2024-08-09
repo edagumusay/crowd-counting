@@ -175,7 +175,7 @@ class VideoCountWorker(QRunnable):
     def stop(self):
         self._is_running = False
 
-class MainWindow(QMainWindow):
+class CrowdCountingWindow(QWidget):
     def __init__(self, video_path):
         super().__init__()
 
@@ -186,37 +186,37 @@ class MainWindow(QMainWindow):
         
         self.setWindowTitle("Crowd Counting")
         
-        # Menu Bar
-        menu_bar = QMenuBar()
-        self.setMenuBar(menu_bar)
+        # # Menu Bar
+        # menu_bar = QMenuBar()
+        # # self.setMenuBar(menu_bar)
 
-        # Menubar actions
-        file_menu_action = QAction("File", self)
-        preference_menu_action = QAction("Preference", self)
-        exit_menu_action = QAction("Exit", self)
+        # # Menubar actions
+        # file_menu_action = QAction("File", self)
+        # preference_menu_action = QAction("Preference", self)
+        # exit_menu_action = QAction("Exit", self)
         
-        file_menu = menu_bar.addMenu("File")
-        preference_menu = menu_bar.addMenu("Preference")
-        exit_menu = menu_bar.addMenu("Exit")
+        # file_menu = menu_bar.addMenu("File")
+        # preference_menu = menu_bar.addMenu("Preference")
+        # exit_menu = menu_bar.addMenu("Exit")
 
-        file_menu.addAction(file_menu_action)
-        preference_menu.addAction(preference_menu_action)
-        exit_menu.addAction(preference_menu_action)
+        # file_menu.addAction(file_menu_action)
+        # preference_menu.addAction(preference_menu_action)
+        # exit_menu.addAction(preference_menu_action)
 
-        # Toolbar actions
-        generate_report_action = QAction("Generate Report", self)
-        access_data_action = QAction("Access Historical Data", self)
+        # # Toolbar actions
+        # generate_report_action = QAction("Generate Report", self)
+        # access_data_action = QAction("Access Historical Data", self)
 
-        # Toolbar
-        tool_bar = QToolBar()
-        self.addToolBar(tool_bar)
+        # # Toolbar
+        # tool_bar = QToolBar()
+        # self.addToolBar(tool_bar)
         
-        tool_bar.addAction(generate_report_action)
-        tool_bar.addAction(access_data_action)
+        # tool_bar.addAction(generate_report_action)
+        # tool_bar.addAction(access_data_action)
         
         # Central Widget
-        central_widget = QWidget()
-        main_layout = QGridLayout(central_widget)
+        # central_widget = QWidget()
+        main_layout = QGridLayout()
         
         # Main stream Display Area
         stream_layout = QVBoxLayout()
@@ -282,7 +282,8 @@ class MainWindow(QMainWindow):
         main_layout.addLayout(stream_layout, 0, 1)
         
         
-        self.setCentralWidget(central_widget)
+        # self.setCentralWidget(central_widget)
+        self.setLayout(main_layout)
 
     def play_clicked(self):
         self.video_counter_thread = VideoCountWorker(self)

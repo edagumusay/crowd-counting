@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QFormLayout, 
                                QRadioButton, QPushButton, QFileDialog, QLineEdit, QMessageBox
                                )
 import sys
-from main_window import MainWindow
+from crowd_counting_window import CrowdCountingWindow
 class InitialWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -12,7 +12,7 @@ class InitialWindow(QWidget):
         
         self.setWindowTitle("Dashboard - Crowd Counting")
 
-        self.main_window = None
+        self.crowd_counting_window = None
         
         # Main layout
         layout = QVBoxLayout()
@@ -77,9 +77,9 @@ class InitialWindow(QWidget):
     
     def start_main_gui(self):
         if self.video_path:
-            self.main_window = MainWindow(self.video_path)
+            self.crowd_counting_window = CrowdCountingWindow(self.video_path)
             # self.close()
-            self.main_window.show()
+            self.crowd_counting_window.show()
         else:
             QMessageBox.warning(self, 'Warning', 'Video source not selected!')
 
