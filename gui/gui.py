@@ -10,18 +10,6 @@ from model_comparison_window import ModelComparisonWindow
 from data_insights_window import DataInsightsWindow
 from settings_window import SettingsWindow
 
-
-class ClickableLabel(QLabel):
-    clicked = Signal()  # Signal to emit when the label is clicked
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setCursor(QCursor(Qt.PointingHandCursor))  # Change cursor to hand pointer on hover
-
-    def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.clicked.emit()  # Emit signal when left mouse button is pressed
-
 class FixedWidthSpacer(QWidget):
     def __init__(self, width=5):
         super().__init__()
