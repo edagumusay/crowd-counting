@@ -1,9 +1,9 @@
 import sys
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QComboBox, 
-                               QRadioButton, QPushButton, QFileDialog, QLineEdit, QMessageBox, QLabel, QGroupBox, QToolBar, QSizePolicy,
+                               QRadioButton, QPushButton, QFileDialog, QMessageBox, QLabel, QGroupBox, QToolBar, QSizePolicy,
                                QTabWidget, QToolButton, QMenu, QWidgetAction)
-from PySide6.QtGui import QIcon, QCursor, QAction, QFont
-from PySide6.QtCore import QSize, Signal, Qt
+from PySide6.QtGui import QIcon, QAction, QFont
+from PySide6.QtCore import QSize, Qt
 
 from crowd_counting_window import CrowdCountingWindow
 from model_comparison_window import ModelComparisonWindow

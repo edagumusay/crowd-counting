@@ -1,8 +1,8 @@
 import sys
-from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QGridLayout, QMenuBar, QToolBar, 
+from PySide6.QtWidgets import (QApplication, QVBoxLayout, QHBoxLayout, QGridLayout, 
                                QWidget, QLabel, QGroupBox, QFormLayout, QLineEdit, 
                                QSpinBox, QPushButton)
-from PySide6.QtGui import QAction, QImage, QPixmap
+from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtCore import QRunnable, Slot, QThreadPool
 import os
 import cv2
@@ -97,48 +97,17 @@ class VideoCountWorker(QRunnable):
     def stop(self):
         self._is_running = False
 
-class CrowdCountingWindow(QMainWindow):
+class CrowdCountingWindow(QWidget):
     def __init__(self, video_path):
         super().__init__()
 
+        self.setWindowTitle("Crowd Counting")
+
         # For video counter
         self.video_path = video_path
-
         self.threadpool = QThreadPool()
         
-        self.setWindowTitle("Crowd Counting")
-        
-        # Menu Bar
-        menu_bar = QMenuBar()
-        self.setMenuBar(menu_bar)
-
-        # Menubar actions
-        file_menu_action = QAction("File", self)
-        preference_menu_action = QAction("Preference", self)
-        exit_menu_action = QAction("Exit", self)
-        
-        file_menu = menu_bar.addMenu("File")
-        preference_menu = menu_bar.addMenu("Preference")
-        exit_menu = menu_bar.addMenu("Exit")
-
-        file_menu.addAction(file_menu_action)
-        preference_menu.addAction(preference_menu_action)
-        exit_menu.addAction(preference_menu_action)
-
-        # Toolbar actions
-        generate_report_action = QAction("Generate Report", self)
-        access_data_action = QAction("Access Historical Data", self)
-
-        # Toolbar
-        tool_bar = QToolBar()
-        self.addToolBar(tool_bar)
-        
-        tool_bar.addAction(generate_report_action)
-        tool_bar.addAction(access_data_action)
-        
-        # Central Widget
-        central_widget = QWidget()
-        main_layout = QGridLayout(central_widget)
+        main_layout = QGridLayout(self)
         
         # Main stream Display Area
         stream_layout = QVBoxLayout()
@@ -202,7 +171,6 @@ class CrowdCountingWindow(QMainWindow):
         main_layout.addWidget(side_panel, 0, 0)
         main_layout.addLayout(stream_layout, 0, 1)
         
-        self.setCentralWidget(central_widget)
 
     def play_clicked(self):
         self.video_counter_thread = VideoCountWorker(self)
