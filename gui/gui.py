@@ -154,7 +154,7 @@ class CrowdCountingPushButton(QWidget):
         dropdown_widget_layout.addWidget(self.camera_combo)
 
 
-        self.video_radio = QRadioButton("Video Input")
+        self.video_radio = QRadioButton("Video/Image Input")
         self.video_radio.toggled.connect(self.toggle_video_radio)
         dropdown_widget_layout.addWidget(self.video_radio)
 
@@ -201,7 +201,7 @@ class CrowdCountingPushButton(QWidget):
             self.upload_button.hide()
 
     def open_file_dialog(self):
-        file_path, _ = QFileDialog.getOpenFileName(self, "Select Video File", "", "Video Files (*.mp4 *.avi)")
+        file_path, _ = QFileDialog.getOpenFileName(self,"Select Video/Image File", "", "Video Files (*.mp4 *.avi);;Image Files (*.png *.jpg *.jpeg *.bmp);;All Files (*)")
         if file_path:
             self.video_path = file_path
     

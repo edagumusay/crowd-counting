@@ -1,8 +1,8 @@
 import sys
-from PySide6.QtWidgets import (QApplication, QVBoxLayout, QHBoxLayout, QGridLayout, 
+from PySide6.QtWidgets import (QVBoxLayout, QHBoxLayout, QGridLayout, 
                                QWidget, QLabel, QGroupBox, QFormLayout, QLineEdit, 
                                QSpinBox, QPushButton)
-from PySide6.QtGui import QImage, QPixmap
+from PySide6.QtGui import QImage, QPixmap, QGuiApplication
 from PySide6.QtCore import QRunnable, Slot, QThreadPool
 import os
 import cv2
@@ -118,13 +118,13 @@ class CrowdCountingWindow(QWidget):
         
         # stream Controls
         stream_controls_layout = QHBoxLayout()
-        self.play_button = QPushButton("Play")
-        self.play_button.clicked.connect(self.play_clicked)
+        self.start_button = QPushButton("Start")
+        self.start_button.clicked.connect(self.play_clicked)
         self.pause_button = QPushButton("Pause")
         self.stop_button = QPushButton("Stop")
         self.stop_button.clicked.connect(self.stop_clicked)
         
-        stream_controls_layout.addWidget(self.play_button)
+        stream_controls_layout.addWidget(self.start_button)
         stream_controls_layout.addWidget(self.pause_button)
         stream_controls_layout.addWidget(self.stop_button)
         
@@ -169,6 +169,22 @@ class CrowdCountingWindow(QWidget):
         
         main_layout.addWidget(side_panel, 0, 0)
         main_layout.addLayout(stream_layout, 0, 1)
+
+        self.resize(1200, 600)  # Set an initial size for the window
+    
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.center()
+
+    def center(self):
+        screen = QGuiApplication.primaryScreen()
+        if screen:
+            screen_geometry = screen.geometry()
+            window_geometry = self.geometry()
+            x = (screen_geometry.width() - window_geometry.width()) // 2
+            y = (screen_geometry.height() - window_geometry.height()) // 2
+            self.move(x, y)
+
         
 
     def play_clicked(self):
