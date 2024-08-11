@@ -265,12 +265,12 @@ class DashboardWindow(QMainWindow):
 
         # App Logo
         app_name = QLabel("CrowdCountingApp")
-        font = QFont("Arial", 20, QFont.Bold) 
+        font = QFont("Courier New", 25, QFont.Bold) 
         app_name.setFont(font)
         app_name.setContentsMargins(10, 0, 0, 0)
 
         app_name.setStyleSheet(
-            "QLabel {color: #007BFF; margin-right: 80px  }"
+            "QLabel {color: #3498db; margin-right: 80px  }"
         )
         
         toolbar.addWidget(app_name)
