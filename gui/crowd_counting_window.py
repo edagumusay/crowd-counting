@@ -145,7 +145,6 @@ class CrowdCountingWindow(QWidget):
         
         results_layout.addRow("Current Count:", self.current_count_label)
         results_layout.addRow("Approx. FPS:", self.fps_label)
-        results_layout.addRow("Result 3:", self.result3_label)
         
         side_panel_layout.addWidget(results_group)
         
@@ -185,9 +184,3 @@ class CrowdCountingWindow(QWidget):
         if self.video_counter_thread is not None:
             print("stopping")
             self.video_counter_thread.stop()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = CrowdCountingWindow("path_to_your_video.mp4")
-    window.show()
-    sys.exit(app.exec())

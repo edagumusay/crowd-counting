@@ -67,7 +67,6 @@ class CustomPushButton(QWidget):
         super().__init__(parent=None)
 
         layout = QVBoxLayout(self)
-        layout.setAlignment(Qt.AlignCenter) # Center the layout content vertically in the widget
 
         self.button = QPushButton()
         self.button.setIcon(QIcon(icon_path))
@@ -93,8 +92,8 @@ class CustomPushButton(QWidget):
         self.label.setStyleSheet("font-size: 14px;")
 
         # Add the button and label to the layout
-        layout.addWidget(self.button)
-        layout.addWidget(self.label)
+        layout.addWidget(self.button, alignment=Qt.AlignCenter)
+        layout.addWidget(self.label, alignment=Qt.AlignCenter)
 
 class CrowdCountingPushButton(QWidget):
     def __init__(self, icon_path, label_text):
@@ -105,7 +104,6 @@ class CrowdCountingPushButton(QWidget):
         self.crowd_counting_window = None
 
         layout = QVBoxLayout(self)
-        layout.setAlignment(Qt.AlignCenter) # Center the layout content vertically in the widget
 
         self.button = QPushButton()
         self.button.setIcon(QIcon(icon_path))
@@ -185,7 +183,7 @@ class CrowdCountingPushButton(QWidget):
         self.label_tool_button_layout.addWidget(self.tool_button)
 
         # Add the button and the label_tool_button_layout to the layout
-        layout.addWidget(self.button)
+        layout.addWidget(self.button, alignment=Qt.AlignCenter)
         layout.addLayout(self.label_tool_button_layout)
 
         self.button.clicked.connect(self.start_crowd_counting)
