@@ -112,15 +112,15 @@ class CrowdCountingPushButton(QWidget):
         self.button.setMaximumSize(90, 90)  # Adjust the button size if necessary
         self.button.setStyleSheet("""
             QPushButton {
-                    background-color: #3498db;
+                    background-color: #f26d21;
                     border-radius: 30px;
                     padding: 30px;
                 }
                 QPushButton:hover {
-                    background-color: #2980b9;
+                    background-color: #e75500;
                 }
                 QPushButton:pressed {
-                    background-color: #1c5980;
+                    background-color: #da2e00;
                 }
             """)
 
