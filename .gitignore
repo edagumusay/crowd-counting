@@ -1,4 +1,6 @@
 yolov8x.pt
 venv/
+.venv/
 .DS_Store
 Final_output.mp4
+**/__pycache__/
