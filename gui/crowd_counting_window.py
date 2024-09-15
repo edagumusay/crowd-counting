@@ -17,7 +17,7 @@ parent_directory = os.path.dirname(current_directory)
 sys.path.append(parent_directory)
 
 # Load the YOLO model and COCO labels
-model = YOLO('yolov8x.pt') # path to the model
+model = YOLO('trained_models/best.pt')
 with open("coco.txt", "r") as my_file:
     class_list = my_file.read().split("\n")
 
