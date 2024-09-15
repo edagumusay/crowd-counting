@@ -38,7 +38,8 @@ class VideoCountWorker(QRunnable):
     def __init__(self, main_window_instance):
         super().__init__()
         self.main_window_instance = main_window_instance
-        self._is_running = True
+        self._is_running = False
+        self._is_paused = False
 
         if self.main_window_instance.video_path:
             self.cap = cv2.VideoCapture(self.main_window_instance.video_path)
@@ -59,6 +60,7 @@ class VideoCountWorker(QRunnable):
         fps = 0
         totalFrames = 0
 
+        self._is_running = True
         while self._is_running:
             ret, self.frame = self.cap.read()
             if not ret:
@@ -87,14 +89,20 @@ class VideoCountWorker(QRunnable):
             fps = totalFrames / num_seconds_till_now
             self.main_window_instance.fps_label.setText("%.2f" % fps)
 
-            if cv2.waitKey(1) & 0xFF == 27:
-                break
+            while(self._is_paused):
+                pass
 
         self.cap.release()
         cv2.destroyAllWindows()
     
     def stop(self):
         self._is_running = False
+
+    def pause(self):
+        self._is_paused = True
+
+    def resume(self):
+        self._is_paused = False
 
 
     def display_frame(self, frame):
@@ -211,7 +219,7 @@ class CrowdCountingWindow(QWidget):
                     background-color: #1c5980;
                 }
             """)
-        self.pause_button.clicked.connect(self.play_clicked)
+        self.pause_button.clicked.connect(self.pause_clicked)
 
 
         self.reset_button = QPushButton()
@@ -232,7 +240,7 @@ class CrowdCountingWindow(QWidget):
                     background-color: #1c5980;
                 }
             """)
-        self.reset_button.clicked.connect(self.stop_clicked)
+        self.reset_button.clicked.connect(self.reset_clicked)
 
         
         play_pause_stop_layout.addWidget(self.start_button)
@@ -304,13 +312,19 @@ class CrowdCountingWindow(QWidget):
         
 
     def play_clicked(self):
-        self.threadpool.start(self.video_counter_thread)
+        if self.video_counter_thread._is_paused: # When there is an active thread already and paused
+            self.video_counter_thread.resume()
+        elif self.video_counter_thread._is_running is not True:
+            self.threadpool.start(self.video_counter_thread)
+
+    def pause_clicked(self):
+        if self.video_counter_thread is not None:
+            self.video_counter_thread.pause()
     
-    def stop_clicked(self):
+    def reset_clicked(self):
         if self.video_counter_thread is not None:
             self.video_counter_thread.display_first_frame()
 
     def closeEvent(self, event):
         if self.video_counter_thread is not None:
-            print("stopping")
             self.video_counter_thread.stop()
