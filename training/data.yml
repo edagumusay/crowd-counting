@@ -1,0 +1,21 @@
+train: '/Users/nijatkaazimli/Desktop/training/image_dataset/train/images'
+val: '/Users/nijatkaazimli/Desktop/training/image_dataset/val/images'
+test: '/Users/nijatkaazimli/Desktop/training/image_dataset/test/images'
+
+nc: 1
+names:
+  0: person
+
+# Have folder structure
+# root:
+#   train:
+#     images
+#     labels
+#   val:
+#     images
+#     labels
+#   test:
+#     images
+#   labels
+# Please do not commit the dataset
+#

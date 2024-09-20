@@ -1,4 +1,5 @@
 yolov8x.pt
+yolov5nu.pt
 venv/
 .venv/
 .DS_Store
