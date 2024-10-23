@@ -9,6 +9,7 @@ from crowd_counting_window import CrowdCountingWindow
 from model_comparison_window import ModelComparisonWindow
 from data_insights_window import DataInsightsWindow
 from settings_window import SettingsWindow
+import qdarktheme
 
 class FixedWidthSpacer(QWidget):
     def __init__(self, width=5):
@@ -360,6 +361,8 @@ class DashboardWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    # Apply the complete dark theme to your Qt App.
+    qdarktheme.setup_theme()
     dashboard_window = DashboardWindow()
     dashboard_window.show()
     app.exec()
