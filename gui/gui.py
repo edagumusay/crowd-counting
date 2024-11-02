@@ -141,7 +141,7 @@ class CrowdCountingPushButton(QWidget):
 
         # Create a widget container
         dropdown_widget = QWidget()
-        dropdown_widget.setFixedHeight(125)
+        dropdown_widget.setFixedHeight(140)
         dropdown_widget_layout = QVBoxLayout(dropdown_widget)
 
         # Input Source Selection
@@ -361,7 +361,6 @@ class DashboardWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    # Apply the complete dark theme to your Qt App.
     qdarktheme.setup_theme()
     dashboard_window = DashboardWindow()
     dashboard_window.show()
