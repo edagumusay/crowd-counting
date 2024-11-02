@@ -10,6 +10,7 @@ from model_comparison_window import ModelComparisonWindow
 from data_insights_window import DataInsightsWindow
 from settings_window import SettingsWindow
 import qdarktheme
+import cv2
 
 class FixedWidthSpacer(QWidget):
     def __init__(self, width=5):
@@ -103,6 +104,8 @@ class CrowdCountingPushButton(QWidget):
         # To be passed to the CrowdCountingWindow
         self.video_path = None
         self.crowd_counting_window = None
+        self.selected_stream_mode = None
+        self.select_camera_index = None
 
         layout = QVBoxLayout(self)
 
@@ -150,7 +153,8 @@ class CrowdCountingPushButton(QWidget):
         dropdown_widget_layout.addWidget(self.camera_radio)
 
         self.camera_combo = QComboBox()
-        self.camera_combo.addItems(["0", "1", "2"])
+        self.camera_combo.currentIndexChanged.connect(self.currentIndexChanged_camera_combo)
+        # self.camera_combo.addItems(["0", "1", "2"])
         self.camera_combo.hide()
         dropdown_widget_layout.addWidget(self.camera_combo)
 
@@ -191,13 +195,19 @@ class CrowdCountingPushButton(QWidget):
 
     def toggle_camera_radio(self):
         if self.camera_radio.isChecked():
+            self.detect_cameras()
             self.camera_combo.show()
+            self.selected_stream_mode = 'camera'
         else:
             self.camera_combo.hide()
+    
+    def currentIndexChanged_camera_combo(self):
+        self.select_camera_index = self.camera_combo.currentIndex()
     
     def toggle_video_radio(self):
         if self.video_radio.isChecked():
             self.upload_button.show()
+            self.selected_stream_mode = 'file'
         else:
             self.upload_button.hide()
 
@@ -207,11 +217,33 @@ class CrowdCountingPushButton(QWidget):
             self.video_path = file_path
     
     def start_crowd_counting(self):
-        if self.video_path:
-            self.crowd_counting_window = CrowdCountingWindow(self.video_path)
+        if self.selected_stream_mode == 'camera':
+            self.crowd_counting_window = CrowdCountingWindow(stream_mode='camera', camera_index=self.select_camera_index)
             self.crowd_counting_window.show()
+        elif self.selected_stream_mode == 'file':
+                if self.video_path:
+                    self.crowd_counting_window = CrowdCountingWindow(stream_mode='file', video_path=self.video_path)
+                    self.crowd_counting_window.show()
+                else:
+                    QMessageBox.warning(self, 'Warning', 'Video/Image file not selected!')
         else:
-            QMessageBox.warning(self, 'Warning', 'Video source not selected!')
+            QMessageBox.warning(self, 'Warning', 'Input source not selected!')
+
+    def detect_cameras(self):
+        index = 0
+        available_cameras = []
+        
+        # Try opening cameras in increasing order of index
+        while True:
+            cap = cv2.VideoCapture(index)
+            if not cap.isOpened():
+                break
+            available_cameras.append(f"Camera {index}")
+            cap.release()
+            index += 1
+        
+        # Populate the combo box
+        self.camera_combo.addItems(available_cameras)
 
 class DashboardWindow(QMainWindow):
     def __init__(self):

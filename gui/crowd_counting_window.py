@@ -41,14 +41,23 @@ class VideoCountWorker(QRunnable):
         self._is_running = False
         self._is_paused = False
 
-        if self.main_window_instance.video_path:
+        self.cap = None
+
+        if self.main_window_instance.stream_mode == 'file' and self.main_window_instance.video_path:
             self.cap = cv2.VideoCapture(self.main_window_instance.video_path)
-        else:
-            self.cap = None
+        elif self.main_window_instance.stream_mode == 'camera':
+            if self.cap is not None: # realease any previously opened camera
+                self.cap.release()
+            self.cap = cv2.VideoCapture(self.main_window_instance.camera_index)
         self.frame = None
-        
+
+
         # For the slider
-        self.total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        if self.main_window_instance.stream_mode == 'file':
+            self.total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        else:
+            self.total_frames = 0
+
 
     @Slot()
     def run(self):
@@ -137,15 +146,16 @@ class VideoCountWorker(QRunnable):
         if ret:
             self.display_frame(self.frame)
         # Reset the frames again
-        self.cap.release()  # Release the current capture
-        self.cap = cv2.VideoCapture(self.main_window_instance.video_path)
+        if self.main_window_instance.stream_mode == 'file': # when reading from a file, readjust the frame progress
+            self.cap.release()  # Release the current capture
+            self.cap = cv2.VideoCapture(self.main_window_instance.video_path)
     
     def update_slider(self, frame_number):
         self.main_window_instance.slider.setValue(frame_number)
 
 
 class CrowdCountingWindow(QWidget):
-    def __init__(self, video_path):
+    def __init__(self, stream_mode = 'file', video_path = None, camera_index = 0):
         super().__init__()
 
         self.setWindowTitle("Crowd Counting")
@@ -153,6 +163,8 @@ class CrowdCountingWindow(QWidget):
         # For video counter
         self.video_path = video_path
         self.threadpool = QThreadPool()
+        self.stream_mode = stream_mode # 'file' for image/video files or 'camera' for camera stream
+        self.camera_index = camera_index
 
 
         # Init the handle for VideoCountWorker thread
