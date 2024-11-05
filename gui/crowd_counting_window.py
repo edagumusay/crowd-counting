@@ -263,13 +263,11 @@ class CrowdCountingWindow(QWidget):
         
         stream_layout.addLayout(stream_control_layout)
         
-        # Side Panel
-        side_panel = QGroupBox("Results and Parameters")
-        side_panel.setMaximumWidth(250)
-        side_panel_layout = QVBoxLayout(side_panel)
+        side_panel_layout = QVBoxLayout()
         
         # Results
         results_group = QGroupBox("Results")
+        results_group.setMinimumWidth(200)
         results_layout = QFormLayout(results_group)
         
         self.current_count_label = QLabel("0")
@@ -281,26 +279,7 @@ class CrowdCountingWindow(QWidget):
         
         side_panel_layout.addWidget(results_group)
         
-        # Parameters
-        parameters_group = QGroupBox("Parameters")
-        settings_layout = QFormLayout(parameters_group)
-        
-        self.parameter0_label = QLineEdit()
-        self.parameter0_label.setDisabled(True)
-        self.parameter1_label = QSpinBox()
-        self.parameter2_label = QSpinBox()
-        self.parameter3_label = QSpinBox()
-        self.parameter4_label = QSpinBox()
-        
-        settings_layout.addRow("Parameter 0:", self.parameter0_label)
-        settings_layout.addRow("Parameter 1:", self.parameter1_label)
-        settings_layout.addRow("Parameter 2:", self.parameter2_label)
-        settings_layout.addRow("Parameter 3:", self.parameter3_label)
-        settings_layout.addRow("Parameter 4:", self.parameter4_label)
-        
-        side_panel_layout.addWidget(parameters_group)
-        
-        main_layout.addWidget(side_panel, 0, 0)
+        main_layout.addLayout(side_panel_layout, 0, 0)
         main_layout.addLayout(stream_layout, 0, 1)
 
         self.resize(1200, 600)  # Set an initial size for the window
